@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8">
+    <title>chat</title>
+    <!--<link rel="stylesheet" href="/css/style.css"/>-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</head>
+<body>
+    <!--<div id="content">-->
+        <!--<div id="room"></div>-->
+        <!--<div id="room-list"></div>-->
+        <!--<div id="messages"></div>-->
+        <!--<form id="send-form" onsubmit="submit()">-->
+            <!--<input type="text" id="send-message" />-->
+            <!--<span id="send-button">send</span>-->
+            <!--<div id="help">-->
+                <!--Chat commands;-->
+                <!--<ul>-->
+                    <!--<li>Change nickname：<code>/nick [username]</code></li>-->
+                    <!--<li>Join/create room：<code>/join [room name]</code></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+    <div id="app">
+        {{message}}
+        <span v-bind:title="title">
+            {{message}}
+        </span>
+        <span v-if="isShow">
+            你能看见我吗？
+        </span>
+        <br>
+        <p v-for="item in list">{{item.text}}</p>
+        <input type="text" v-model="msg" v>
+        <span>{{msg}}</span>
+        <input type="button" v-on:click="reverse" value="点击">
+        <ul>
+            <todo-item v-for="item in groceryList" v-bind:key="item.id" v-bind:num="item.id" v-bind:todo="item"></todo-item>
+        </ul>
+        <ul>
+            <li v-for="n in evenNumbers">{{ n }}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    Vue.component('todo-item',{
+        props:['todo','num'],
+        template:'<li>{{todo.text}}{{num}}</li>'
+    });
+    let vue = new Vue({
+        el:'#app',
+        data:{
+            message:'hello world',
+            title:'页面加载于 ' + new Date().toLocaleString(),
+            isShow:true,
+            list:[
+                { text: '学习 JavaScript' },
+                { text: '学习 Vue' },
+                { text: '整个牛项目' }
+            ],
+            msg:'',
+            groceryList: [
+                { id: 0, text: '蔬菜' },
+                { id: 1, text: '奶酪' },
+                { id: 2, text: '随便其它什么人吃的东西' }
+            ],
+            numbers:[1,2,3,4,5]
+        },
+        methods:{
+            reverse: function () {
+                this.msg = this.msg.split('').reverse().join('');
+            }
+        },
+        computed:{
+            evenNumbers: function () {
+                return this.numbers.filter(function (number) {
+                    return number % 2 === 0
+                })
+            }
+        }
+    });
+
+</script>
+<!--<script type="text/javascript" src="/socket.io/socket.io.js"></script>-->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<!--<script type="text/javascript" src="/js/chat.js"></script>-->
+<!--<script type="text/javascript" src="/js/chat_ui.js"></script>-->
+</html>
